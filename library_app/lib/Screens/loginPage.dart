@@ -14,29 +14,28 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: HomePage(),
-//        child: SingleChildScrollView(
-//          child: Column(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              SizedBox(height: 45.0),
-//              InputField(placeholder: "ID"),
-//              SizedBox(height: 25.0),
-//              InputField(placeholder: "Password", boolValue: "hide"),
-//              SizedBox(height: 35.0),
-//              Row(
-//                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                children: <Widget>[
-//                  Button(texts: "Login", screen: HomePage()),
-//                  Button(texts: "Register", screen: RegisterPage()),
-//                ],
-//              ),
-//              SizedBox(
-//                height: 15.0,
-//              ),
-//            ],
-//          ),
-//        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 45.0),
+              InputField(placeholder: "ID"),
+              SizedBox(height: 25.0),
+              InputField(placeholder: "Password", boolValue: "hide"),
+              SizedBox(height: 35.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Button(texts: "Login", screen: HomePage()),
+                  Button(texts: "Register", screen: RegisterPage()),
+                ],
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
