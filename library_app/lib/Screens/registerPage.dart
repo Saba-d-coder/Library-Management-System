@@ -15,22 +15,24 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
       ),
-      resizeToAvoidBottomPadding: false,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          InputField(placeholder: "Name"),
-          SizedBox(height: 15.0),
-          InputField(placeholder: "Mobile Number"),
-          SizedBox(height: 15.0),
-          InputField(placeholder: "ID"),
-          SizedBox(height: 15.0),
-          InputField(placeholder: "New Password", boolValue: "hide"),
-          SizedBox(height: 15.0),
-          InputField(placeholder: "Compare Password", boolValue: "hide"),
-          SizedBox(height: 25.0),
-          Button(texts: 'Submit', screen: LoginPage())
-        ],
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(top: 70.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            InputField(placeholder: "Name"),
+            SizedBox(height: 15.0),
+            InputField(placeholder: "Mobile Number"),
+            SizedBox(height: 15.0),
+            InputField(placeholder: "ID"),
+            SizedBox(height: 15.0),
+            InputField(placeholder: "New Password", boolValue: "hide"),
+            SizedBox(height: 15.0),
+            InputField(placeholder: "Compare Password", boolValue: "hide"),
+            SizedBox(height: 25.0),
+            Button(texts: 'Submit', screen: LoginPage())
+          ],
+        ),
       ),
     );
   }

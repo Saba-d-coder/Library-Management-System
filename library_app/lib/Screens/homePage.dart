@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:libraryapp/Services/inputFields.dart';
 import 'package:libraryapp/Services/bookDetails.dart';
 import 'package:libraryapp/Services/displayBook.dart';
+import 'package:libraryapp/Screens/sideMenu.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: SideMenu(),
       appBar: AppBar(
         title: Text('Library App'),
         backgroundColor: Colors.black,
