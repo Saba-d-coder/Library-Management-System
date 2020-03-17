@@ -20,10 +20,11 @@ class SideMenu extends StatelessWidget {
               ),
             ),
           ),
+          //TODO 2: Add navigator push for resp screens
           ListTile(
             leading: Icon(Icons.verified_user),
             title: Text('Profile'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {},
           ),
           ListTile(
             leading: Icon(Icons.history),
@@ -43,17 +44,17 @@ class SideMenu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {},
           ),
           ListTile(
             leading: Icon(Icons.border_color),
             title: Text('Feedback'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {},
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {},
           ),
         ],
       ),
