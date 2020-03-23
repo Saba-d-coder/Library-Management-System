@@ -7,11 +7,11 @@ class BookDB {
 
   List<Book> _bookDatabase = [
     Book('Database Management System', 'ABC', 'McGraw Hill',
-        "It's a good one. Very useful", "images/dbms.jpg"),
+        "It's a good one. Very useful", "asset/images/dbms.jpg"),
     Book('Database Management System', 'ABC', 'McGraw Hill',
-        "It's a good one. Very useful", "images/dbms.jpg"),
+        "It's a good one. Very useful", "asset/images/dbms.jpg"),
     Book('Database Management System', 'ABC', 'McGraw Hill',
-        "It's a good one. Very useful", "images/dbms.jpg"),
+        "It's a good one. Very useful", "asset/images/dbms.jpg"),
   ];
 
   void nextBook() {
