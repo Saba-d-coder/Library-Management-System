@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:libraryapp/constants/allConst.dart';
 
 class Button extends StatelessWidget {
   Button({this.texts, this.screen});
@@ -11,7 +12,7 @@ class Button extends StatelessWidget {
     return Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Colors.cyan,
+      color: kThemeColor,
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
@@ -21,7 +22,7 @@ class Button extends StatelessWidget {
         },
         child: Text(texts,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            style: TextStyle(color: kThemeText, fontWeight: FontWeight.bold)),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:libraryapp/Screens/loginPage.dart';
+import 'package:libraryapp/constants/allConst.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,8 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Library App',
       theme: ThemeData.dark().copyWith(
-        primaryColor: Color(0xFF0A0E21),
-        scaffoldBackgroundColor: Color(0xFF0A0E21),
+        scaffoldBackgroundColor: kThemeText,
       ),
       home: LoginPage(),
     );

@@ -1,6 +1,5 @@
 class Book {
-  String name, author, publisher, review;
-  String image;
+  String name, author, publisher, review, image;
 
   Book(String n, String auth, String pub, String rev, String img) {
     name = n;

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:libraryapp/Services/inputFields.dart';
 import 'package:libraryapp/Services/bookDetails.dart';
-import 'package:libraryapp/Services/displayBook.dart';
 import 'package:libraryapp/Screens/sideMenu.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:libraryapp/constants/allConst.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  BookDB bk = new BookDB();
+//  BookDB bk = new BookDB();
   String barcodeText = "";
 
   final searchBar = InputField(
@@ -51,31 +53,37 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SideMenu(),
-      appBar: AppBar(
-        title: Text('Library App'),
-        backgroundColor: Colors.cyan,
-        actions: <Widget>[
-          new MaterialButton(
-            onPressed: scan,
-            child: Icon(const IconData(0xe900, fontFamily: 'ic_scanner')),
+        drawer: SideMenu(),
+        appBar: AppBar(
+          title: Text(
+            'App',
+            style: TextStyle(color: kThemeText),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Center(
+          backgroundColor: kThemeColor,
+          iconTheme: new IconThemeData(color: kThemeText),
+          actions: <Widget>[
+            new MaterialButton(
+              onPressed: scan,
+              child: Icon(
+                const IconData(0xe900, fontFamily: 'ic_scanner'),
+                color: kThemeText,
+              ),
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 13.0),
+              SizedBox(
+                height: 10.0,
+              ),
               searchBar,
-              BookDetail(bk: bk),
-              BookDetail(bk: bk),
-              BookDetail(bk: bk),
-              BookDetail(bk: bk),
+              SizedBox(
+                height: 10.0,
+              ),
+              BookList()
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
