@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
+  autocomplete_textfield:
+    dependency: "direct main"
+    description:
+      name: autocomplete_textfield
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.7.3"
   barcode_scan:
     dependency: "direct dev"
     description:
@@ -102,6 +109,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  http:
+    dependency: "direct main"
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.12.0+4"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.4"
   image:
     dependency: transitive
     description:
@@ -137,6 +158,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0+1"
+  permission_handler:
+    dependency: "direct main"
+    description:
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.3.0"
   petitparser:
     dependency: transitive
     description:
@@ -163,6 +191,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.5"
+  speech_recognition:
+    dependency: "direct main"
+    description:
+      name: speech_recognition
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0+1"
   stack_trace:
     dependency: transitive
     description:
