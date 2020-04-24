@@ -5,6 +5,10 @@ import 'package:libraryapp/Services/menuItem.dart';
 import 'package:libraryapp/constants/allConst.dart';
 
 class SideMenu extends StatelessWidget {
+  Map<String, dynamic> profile;
+  SideMenu(profile) {
+    this.profile = profile;
+  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -14,11 +18,11 @@ class SideMenu extends StatelessWidget {
         child: ListView(padding: EdgeInsets.zero, children: <Widget>[
           UserAccountsDrawerHeader(
             accountName: Text(
-              'KSK',
+              profile['name'],
               style: TextStyle(color: kThemeText),
             ),
             accountEmail: Text(
-              'abc@gmail.com',
+              profile['emailID'],
               style: TextStyle(color: kThemeText),
             ),
             currentAccountPicture: new CircleAvatar(
@@ -48,31 +52,31 @@ class SideMenu extends StatelessWidget {
           MenuItem(
             text: 'Profile',
             iconName: Icons.verified_user,
-            screen: ProfileDetails(),
+            screen: ProfileDetails(profile),
           ),
           MenuItem(
               text: 'History',
               iconName: Icons.history,
-              screen: ProfileDetails()),
+              screen: ProfileDetails(profile)),
           MenuItem(
             text: 'Books Issued',
             iconName: Icons.book,
-            screen: ProfileDetails(),
+            screen: ProfileDetails(profile),
           ),
           MenuItem(
             text: 'Wishlist',
             iconName: Icons.list,
-            screen: ProfileDetails(),
+            screen: ProfileDetails(profile),
           ),
           MenuItem(
             text: 'Settings',
             iconName: Icons.settings,
-            screen: ProfileDetails(),
+            screen: ProfileDetails(profile),
           ),
           MenuItem(
             text: 'Feedback',
             iconName: Icons.border_color,
-            screen: ProfileDetails(),
+            screen: ProfileDetails(profile),
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),

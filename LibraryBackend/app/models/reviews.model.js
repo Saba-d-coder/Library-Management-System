@@ -1,5 +1,6 @@
 //include db connection file
 const sql = require("./db.js");
+const rev = require("../review.js");
 
 //constructor function
 const Reviews = function(review) {
@@ -20,6 +21,7 @@ Reviews.getAllByBID = (bid, result) => {
         if(res.length) {
             console.log("Reviews: ", res);
             result(null, res);
+            console.log(rev.data.getReview(res));
             return;
         }
         result("not found", null);

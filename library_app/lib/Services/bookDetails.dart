@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
+import 'Book.dart';
 
 class BookList extends StatefulWidget {
+  List<Book> bookDB;
+  BookList(bookDB) {
+    this.bookDB = bookDB;
+  }
   @override
-  _BookListState createState() => _BookListState();
+  _BookListState createState() => _BookListState(bookDB);
 }
 
 class _BookListState extends State<BookList> {
-  var bookDB = [
+  /*var bookDB = [
     {
       "name": "How Not to Be Wrong",
       "author": "Jordan Ellenberg",
@@ -44,11 +49,38 @@ class _BookListState extends State<BookList> {
       "reviews": ["Too Good", "Very useful book", "A must read"],
       "image": "asset/images/physics.jpg"
     },
-  ];
-
+  ];*/
+  _BookListState(bookDB) {
+    this.bookDB = bookDB;
+  }
+  @override
+  void initState() {
+    super.initState();
+    setState(() => loading = true);
+    _BookListState(bookDB);
+    setState(() => loading = false);
+  }
+  List<Book> bookDB = List();
+  var loading = false;
+  /*_getAllBooks() async {
+    setState(() {
+      loading = true;
+    });
+      String url = 'http://'+ipAddress+':3000/books';
+      http.Response response = await http.get(url);
+      print(response.body);
+      final data = jsonDecode(response.body);
+    setState(() {
+      for (Map i in data) {
+        bookDB.add(Book.fromJson(i));
+      }
+      loading = false;
+    });
+      print(bookDB[1].publisher);
+  }*/
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    return loading ? Center (child: CircularProgressIndicator()) : GridView.builder(
         itemCount: bookDB.length,
         scrollDirection: Axis.vertical,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -59,23 +91,24 @@ class _BookListState extends State<BookList> {
         physics: ScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return SingleBook(
-              bname: bookDB[index]['name'],
-              author: bookDB[index]['author'],
-              pub: bookDB[index]['publisher'],
-              review: bookDB[index]['reviews'],
-              img: bookDB[index]['image']);
-        });
+              bname: bookDB[index].name,
+              author: bookDB[index].author,
+              pub: bookDB[index].publisher);
+              //review: bookDB[index]['reviews'],
+              //img: bookDB[index]['image']);
+          });
   }
+
 }
 
 class SingleBook extends StatelessWidget {
-  SingleBook({this.bname, this.author, this.pub, this.review, this.img});
+  SingleBook({this.bname, this.author, this.pub});//, this.review, this.img});
 
   final bname;
   final author;
   final pub;
-  final review;
-  final img;
+  //final review;
+  //final img;
 
   @override
   Widget build(BuildContext context) {
@@ -93,12 +126,12 @@ class SingleBook extends StatelessWidget {
 //                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Image.asset(
+                    /*Image.asset(
                       img,
                       height: 200.0,
 //                      width: 60.0,
                       fit: BoxFit.fill,
-                    ),
+                    ),*/
                     SizedBox(
                       height: 7.0,
                     ),
@@ -115,7 +148,7 @@ class SingleBook extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(color: Colors.white),
                     ),
-                    Expanded(
+                    /*Expanded(
                       child: Row(
                         children: <Widget>[
                           Icon(
@@ -149,7 +182,7 @@ class SingleBook extends StatelessWidget {
                           Text('20')
                         ],
                       ),
-                    )
+                    )*/
                   ],
                 ),
               ),

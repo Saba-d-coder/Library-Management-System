@@ -12,14 +12,13 @@ class InputField extends StatelessWidget {
     return TextField(
       obscureText: boolValue == "hide" ? true : false,
       style: TextStyle(
-        color: Colors.cyan,
+        color: Colors.white,
       ),
       decoration: InputDecoration(
           suffixIcon: icon,
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: placeholder,
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
   }
 }
