@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
+import 'package:libraryapp/Screens/displayBkDetail.dart';
 import 'Book.dart';
 
 class BookList extends StatefulWidget {
@@ -102,12 +103,12 @@ class _BookListState extends State<BookList> {
 }
 
 class SingleBook extends StatelessWidget {
-  SingleBook({this.bname, this.author, this.pub});//, this.review, this.img});
+  SingleBook({this.bname, this.author, this.pub,this.review});//, this.review, this.img});
 
   final bname;
   final author;
   final pub;
-  //final review;
+  final review;
   //final img;
 
   @override
@@ -118,7 +119,9 @@ class SingleBook extends StatelessWidget {
         child: Material(
           color: Colors.black45,
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+                Detail(bname: bname,author: author,pub: pub,review:review);
+            },
             child: GridTile(
               child: Padding(
                 padding: const EdgeInsets.all(9.0),
