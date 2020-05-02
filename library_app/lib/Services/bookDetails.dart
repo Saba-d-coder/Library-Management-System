@@ -100,21 +100,26 @@ class _BookListState extends State<BookList> {
   }
 
 }
-
-class SingleBook extends StatelessWidget {
-  SingleBook({this.bname, this.author, this.pub});//, this.review, this.img});
-
+class SingleBook extends StatefulWidget {
   final bname;
   final author;
   final pub;
-  //final review;
-  //final img;
+
+  SingleBook({this.bname, this.author, this.pub});
+
+  @override
+  _SingleBookState createState() => _SingleBookState();
+}
+
+class _SingleBookState extends State<SingleBook> {
+
+  bool changeColor= false;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Hero(
-        tag: Text(bname),
+        tag: Text(widget.bname),
         child: Material(
           color: Colors.black45,
           child: InkWell(
@@ -123,32 +128,45 @@ class SingleBook extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(9.0),
                 child: Column(
-//                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    /*Image.asset(
-                      img,
+                    Image.asset(
+                      'asset/images/dbms.jpg',
                       height: 200.0,
 //                      width: 60.0,
                       fit: BoxFit.fill,
-                    ),*/
+                    ),
                     SizedBox(
                       height: 7.0,
                     ),
-                    Text(
-                      bname,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: ListTile(
+                        title: Text(
+                          widget.bname,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        subtitle: Text(
+                          "By " + widget.author,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        trailing: GestureDetector(
+                          child: Icon(
+                            Icons.favorite,
+                            size: 28,
+                            color: changeColor ? Colors.red : Colors.white,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              changeColor = !changeColor;
+                            });
+                          },
+                        ),
+                      ),
                     ),
-                    Text(
-                      author + ", " + pub,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    /*Expanded(
+                    Padding(
+                      padding: EdgeInsets.only(left: 13.0),
                       child: Row(
                         children: <Widget>[
                           Icon(
@@ -182,7 +200,7 @@ class SingleBook extends StatelessWidget {
                           Text('20')
                         ],
                       ),
-                    )*/
+                    )
                   ],
                 ),
               ),
