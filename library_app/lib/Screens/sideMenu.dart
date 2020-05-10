@@ -3,12 +3,14 @@ import 'package:flutter/painting.dart';
 import 'package:libraryapp/Screens/Profile.dart';
 import 'package:libraryapp/Services/menuItem.dart';
 import 'package:libraryapp/constants/allConst.dart';
+import 'history.dart';
+import 'wishlist.dart';
 
 class SideMenu extends StatelessWidget {
-  Map<String, dynamic> profile;
-  SideMenu(profile) {
-    this.profile = profile;
-  }
+  final Map<String, dynamic> profile;
+
+  SideMenu({this.profile});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -51,22 +53,17 @@ class SideMenu extends StatelessWidget {
           //TODO 2: Add navigator push for resp screens rn added same screen to all
           MenuItem(
             text: 'Profile',
-            iconName: Icons.verified_user,
+            iconName: Icons.person_outline,
             screen: ProfileDetails(profile),
           ),
           MenuItem(
               text: 'History',
               iconName: Icons.history,
-              screen: ProfileDetails(profile)),
-          MenuItem(
-            text: 'Books Issued',
-            iconName: Icons.book,
-            screen: ProfileDetails(profile),
-          ),
+              screen: History()),
           MenuItem(
             text: 'Wishlist',
             iconName: Icons.list,
-            screen: ProfileDetails(profile),
+            screen: Wishlist(),
           ),
           MenuItem(
             text: 'Settings',
@@ -81,7 +78,6 @@ class SideMenu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
-            //TODO 3 :after adding named routes everywhere change logout function
             onTap: () => {Navigator.pop(context)},
           ),
         ]),
