@@ -12,4 +12,7 @@ module.exports = app => {
 
     //to update the status and shelfNo of the book based on its id
     app.put("/books/:bid/status/:status/shelfNo/:shelfNo", books.updateStatusByID);
+    
+    //to get book recommendation
+    app.get("/books/rec/:bid", books.getRec);
 };

@@ -1,6 +1,5 @@
 //include db connection file
 const sql = require("./db.js");
-const rev = require("../review.js");
 
 //constructor function
 const Reviews = function(review) {
@@ -12,7 +11,7 @@ const Reviews = function(review) {
 
 //to get all the reviews of a particular book
 Reviews.getAllByBID = (bid, result) => {
-    sql.query(`SELECT * FROM reviews WHERE bid = ${bid}`, (err, res) => {
+    sql.query(`SELECT name, rating, reviews FROM user, reviews WHERE bid = ${bid} and user.uid = reviews.uid`, (err, res) => {
         if(err) {
             console.log("error: ",err);
             result(null, err);
@@ -21,7 +20,6 @@ Reviews.getAllByBID = (bid, result) => {
         if(res.length) {
             console.log("Reviews: ", res);
             result(null, res);
-            console.log(rev.data.getReview(res));
             return;
         }
         result("not found", null);
@@ -37,6 +35,22 @@ Reviews.add = (review) => {
             return;
         }
         console.log("added review: ", {...review});
+    });
+};
+
+//to get rating of every book
+Reviews.getRating = (result) => {
+    sql.query("SELECT bid, ROUND(AVG(rating)) rating FROM reviews group by bid", (err, res) => {
+        if(err) {
+            console.log("error: ",err);
+            result(null, err);
+            return;
+        }
+        if(res.length) {
+            console.log("Reviews: ", res);
+            result(null, res);
+            return;
+        }
     });
 };
 

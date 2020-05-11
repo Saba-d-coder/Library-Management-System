@@ -6,29 +6,30 @@ String modelBookToJson(List<Book> data) => json.encode(List<dynamic>.from(data.m
 
 
 class Book {
-  int id;
-  String name, author, publisher, autocompleteTerm; //,review, image;
-
-  /*Book(String n, String auth, String pub, String rev, String img) {
-    name = n;
-    author = auth;
-    publisher = pub;
-    review = rev;
-    image = img;
-  }*/
-  Book({this.id, this.name, this.author, this.publisher, this.autocompleteTerm});
+  int id, noOfBooks;
+  String name, author, publisher, autocompleteTerm, status, description, subject, shelfNo;
+  Book({this.id, this.name, this.author, this.publisher, this.autocompleteTerm, this.subject, this.noOfBooks, this.status, this.shelfNo, this.description});
   factory Book.fromJson(Map<String, dynamic> json) => Book(
-      id: json['bid'],
-      name: json['bname'],
-      author: json['author'],
-      publisher: json['publisher'],
-      autocompleteTerm: json['bname']+";"+json['author']+";"+json['publisher']
-    );
+    id: json['bid'],
+    name: json['bname'],
+    author: json['author'],
+    publisher: json['publisher'],
+    autocompleteTerm: json['bname']+";"+json['author']+";"+json['publisher'],
+    subject: json['subject'],
+    noOfBooks: json['noOfBooks'],
+    status: json['status'],
+    shelfNo: json['shelfNo'],
+    description: json['description']
+  );
   Map<String, dynamic> toJson() => {
     "id" : id,
     "name" : name,
     "author" : author,
     "publisher" : publisher,
-    "autocompleteTerm" : autocompleteTerm
+    "autocompleteTerm" : autocompleteTerm,
+    "noOfBooks" : noOfBooks,
+    "status" : status,
+    "shelfNo" : shelfNo,
+    "decription" : description
   };
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 
 Color kThemeColor = Colors.cyanAccent;
 Color kThemeText = Colors.black;
 
-String ipAddress = ""; //add the ip address of your host machine
+String ipAddress = "34.72.11.78"; //add the ip address of your host machine
 
 InputDecoration kInputDecor(label, hint) {
   return InputDecoration(
@@ -60,5 +62,32 @@ String emailValidator(String value) {
     return 'Email format is invalid';
   } else {
     return null;
+  }
+}
+
+List<Widget> myWidget(int count) {
+  return List.generate(count+1, (i) => (i < count) ? Icon(
+    Icons.star,
+    size: 18.0,
+    color: Colors.orangeAccent,
+  ) : Text("/5")
+  ).toList();
+}
+
+Future scan() async {
+  try {
+    String barcode = await BarcodeScanner.scan();
+    print(barcode);
+    return barcode;
+  } on PlatformException catch (e) {
+    if (e.code == BarcodeScanner.CameraAccessDenied) {
+      print('The user did not grant the camera permission!');
+    } else {
+      print('Unknown error: $e');
+    }
+  } on FormatException {
+    print('null (User returned using the "back"-button before scanning anything. Result)');
+  } catch (e) {
+    print('Unknown error: $e');
   }
 }

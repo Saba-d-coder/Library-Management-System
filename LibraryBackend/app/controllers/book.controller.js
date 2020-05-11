@@ -47,3 +47,14 @@ exports.updateStatusByID = (req, res) => {
             }
         });
 };
+
+exports.getRec = (req, res) => {
+    Book.getRec(req.params.bid, (err, data) => {
+        if(err) {
+            res.send({msg: err.msg});
+        }
+        else {
+            res.send(data);
+        }
+    });
+};

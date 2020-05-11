@@ -30,3 +30,14 @@ exports.add = (req, res) => {
         }
     });
 };
+
+exports.getRating = (req, res) => {
+    Reviews.getRating((err, data) => {
+        if(err) {
+            res.send({msg: err.msg});
+        }
+        else {
+            res.send(data);
+        }
+    });
+};

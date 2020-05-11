@@ -9,7 +9,9 @@ const Book = function(book) {
     this.publisher = book.publisher,
     this.code = book.code,
     this.shelfNo = book.shelfNo,
-    this.status = book.status
+    this.status = book.status,
+    this.noOfBooks = book.noOfBooks,
+    this.description = book.description
 };
 
 //to retrieve all the books
@@ -74,6 +76,35 @@ Book.updateStatusById = (bid, status, shelfNo, book, result) => {
         }
         console.log("updated book status: ", {...book});
         result(null, {...book});
+    });
+};
+
+//to get recommended books
+Book.getRec = (bid, result) => {
+    sql.query("SELECT * FROM book", (err, res) => {
+        if(err) {
+            console.log("error: ",err);
+            result(null, err);
+            return;
+        }
+        if(res.length) {
+            console.log("Reviews: ", res);
+            var spawn = require('child_process').spawn,
+            py    = spawn('python', ['app/recommender.py', bid]),
+            data = res,
+            dataString = '';
+            py.stdout.on('data', function(data){
+                dataString += data.toString();
+            });
+            py.stdout.on('end', function(){
+                result(null, dataString);
+            });
+            py.stdin.write(JSON.stringify(data));
+            py.stdin.end();
+            
+            return;
+        }
+        result("not found", null);
     });
 };
 

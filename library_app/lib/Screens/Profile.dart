@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:libraryapp/Screens/homePage.dart';
-import 'package:libraryapp/Services/Buttons.dart';
-import 'package:libraryapp/Services/profileDisplay.dart';
 import 'package:libraryapp/constants/allConst.dart';
 import 'package:http/http.dart' as http;
 
@@ -84,26 +82,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           key: _profileFormKey,
           child: Column(
             children: <Widget>[
-              /*ProfileText(
-                label: 'Name',
-                textController: new TextEditingController(text: profile['name']),
-                editMode: enableEdit,
-              ),
-              ProfileText(
-                label: 'Email',
-                textController: new TextEditingController(text: profile['emailID']),
-                editMode: enableEdit,
-              ),
-              ProfileText(
-                label: 'USN',
-                textController: new TextEditingController(text: profile['uid']),
-                editMode: enableEdit,
-              ),
-              ProfileText(
-                label: 'Mobile Number',
-                textController: new TextEditingController(text: profile['phoneNo']),
-                editMode: enableEdit,
-              ),*/
               SizedBox(height: 15.0),
               TextFormField(
                 controller: _uid,

@@ -2,83 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/rendering.dart';
 import 'package:libraryapp/Screens/displayBkDetail.dart';
+import 'package:libraryapp/constants/allConst.dart';
 import 'Book.dart';
+import 'Ratings.dart';
 
 class BookList extends StatefulWidget {
   List<Book> bookDB;
-  BookList(bookDB) {
+  List<Ratings> ratingDB;
+  BookList(bookDB, ratingDB) {
     this.bookDB = bookDB;
+    this.ratingDB = ratingDB;
   }
   @override
-  _BookListState createState() => _BookListState(bookDB);
+  _BookListState createState() => _BookListState(bookDB, ratingDB);
 }
 
 class _BookListState extends State<BookList> {
-  /*var bookDB = [
-    {
-      "name": "How Not to Be Wrong",
-      "author": "Jordan Ellenberg",
-      "publisher": "Penguin Group",
-      "reviews": ["Too Good", "Very useful book", "A must read"],
-      "image": "asset/images/wrong.jpg"
-    },
-    {
-      "name": "Origin",
-      "author": "Dan Brown",
-      "publisher": "Doubleday",
-      "reviews": ["Too Good", "Very useful book", "A must read"],
-      "image": "asset/images/origin.jpg"
-    },
-    {
-      "name": "Inferno",
-      "author": "Dan Brown",
-      "publisher": "Doubleday",
-      "reviews": ["Too Good", "Very useful book", "A must read"],
-      "image": "asset/images/inferno.jpeg"
-    },
-    {
-      "name": "Database Management System",
-      "author": "ABC",
-      "publisher": "McGraw Hill",
-      "reviews": ["Too Good", "Very useful book", "A must read"],
-      "image": "asset/images/dbms.jpg"
-    },
-    {
-      "name": "Engineering Physics",
-      "author": "S. Mani Naidu",
-      "publisher": "Pearson",
-      "reviews": ["Too Good", "Very useful book", "A must read"],
-      "image": "asset/images/physics.jpg"
-    },
-  ];*/
-  _BookListState(bookDB) {
+  _BookListState(bookDB, ratingDB) {
+
     this.bookDB = bookDB;
+    this.ratingDB = ratingDB;
+
   }
   @override
   void initState() {
     super.initState();
-    setState(() => loading = true);
-    _BookListState(bookDB);
-    setState(() => loading = false);
-  }
-  List<Book> bookDB = List();
-  var loading = false;
-  /*_getAllBooks() async {
     setState(() {
       loading = true;
     });
-      String url = 'http://'+ipAddress+':3000/books';
-      http.Response response = await http.get(url);
-      print(response.body);
-      final data = jsonDecode(response.body);
+    _BookListState(bookDB, ratingDB);
     setState(() {
-      for (Map i in data) {
-        bookDB.add(Book.fromJson(i));
-      }
       loading = false;
     });
-      print(bookDB[1].publisher);
-  }*/
+  }
+
+  List<Book> bookDB = List();
+  List<Ratings> ratingDB = List();
+  bool loading;
+
   @override
   Widget build(BuildContext context) {
     return loading ? Center (child: CircularProgressIndicator()) : GridView.builder(
@@ -92,24 +53,26 @@ class _BookListState extends State<BookList> {
         physics: ScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return SingleBook(
+              id: bookDB[index].id,
               bname: bookDB[index].name,
               author: bookDB[index].author,
-              pub: bookDB[index].publisher);
-              //review: bookDB[index]['reviews'],
-              //img: bookDB[index]['image']);
+              pub: bookDB[index].publisher,
+              rating: ratingDB[index].rating,
+              img: 'asset/images/books/'+(bookDB[index].id).toString()+'.jpg');
           });
   }
-
 }
 
 class SingleBook extends StatelessWidget {
-  SingleBook({this.bname, this.author, this.pub,this.review});//, this.review, this.img});
+  SingleBook({this.id ,this.bname, this.author, this.pub, this.rating, this.review, this.img});
 
+  final id;
   final bname;
   final author;
   final pub;
+  final rating;
   final review;
-  //final img;
+  final img;
 
   @override
   Widget build(BuildContext context) {
@@ -120,21 +83,22 @@ class SingleBook extends StatelessWidget {
           color: Colors.black45,
           child: InkWell(
             onTap: () {
-                Detail(bname: bname,author: author,pub: pub,review:review);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Detail(img, id, rating);
+              }));
             },
             child: GridTile(
-              child: Padding(
+              child: Container(
                 padding: const EdgeInsets.all(9.0),
+                width: 200,
                 child: Column(
-//                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  //crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    /*Image.asset(
+                    Image.asset(
                       img,
                       height: 200.0,
-//                      width: 60.0,
                       fit: BoxFit.fill,
-                    ),*/
+                    ),
                     SizedBox(
                       height: 7.0,
                     ),
@@ -151,41 +115,11 @@ class SingleBook extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(color: Colors.white),
                     ),
-                    /*Expanded(
+                    Expanded(
                       child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.star,
-                            size: 18.0,
-                            color: Colors.orangeAccent,
-                          ),
-                          Icon(
-                            Icons.star,
-                            size: 18.0,
-                            color: Colors.orangeAccent,
-                          ),
-                          Icon(
-                            Icons.star,
-                            size: 18.0,
-                            color: Colors.orangeAccent,
-                          ),
-                          Icon(
-                            Icons.star,
-                            size: 18.0,
-                            color: Colors.orangeAccent,
-                          ),
-                          Icon(
-                            Icons.star,
-                            size: 18.0,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 12.0,
-                          ),
-                          Text('20')
-                        ],
+                        children: myWidget(rating)
                       ),
-                    )*/
+                    )
                   ],
                 ),
               ),

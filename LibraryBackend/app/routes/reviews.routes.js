@@ -6,4 +6,8 @@ module.exports = app => {
 
     //to add a book review
     app.post("/reviews", review.add);
+
+    //to get book ratings
+    app.get("/ratings", review.getRating);
+
 }

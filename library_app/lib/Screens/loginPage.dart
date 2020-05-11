@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     if(response.statusCode == 200) {
       print(response.body);
       if(response.body.contains(password)) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
           return HomePage(uid);
         }));
         print('found');
