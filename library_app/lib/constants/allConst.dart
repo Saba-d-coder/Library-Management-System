@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Color kThemeColor = Colors.cyanAccent;
 Color kThemeText = Colors.black;
 
-String ipAddress = "34.72.11.78"; //add the ip address of your host machine
+String ipAddress = "35.225.115.85"; //add the ip address of your host machine
 
 InputDecoration kInputDecor(label, hint) {
   return InputDecoration(
@@ -90,4 +91,45 @@ Future scan() async {
   } catch (e) {
     print('Unknown error: $e');
   }
+}
+
+Widget cancelButton(context) {
+  return FlatButton(
+    child: Text("Cancel"),
+    onPressed: () {
+      Navigator.pop(context, 'cancel');
+    },
+  );
+}
+
+Widget continueButton(context) {
+  return FlatButton(
+    child: Text("Continue"),
+    onPressed: () {
+      Navigator.pop(context, 'continue');
+    },
+  );
+}
+
+// set up the AlertDialog
+AlertDialog alert(context) {
+  return AlertDialog(
+    title: Text("Alert"),
+    content: Text("Would you like to proceed with the transaction?"),
+    actions: [
+      cancelButton(context),
+      continueButton(context),
+    ],
+  );
+}
+
+showToast(text) {
+  Fluttertoast.showToast(
+    msg: text,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.white,
+    textColor: Colors.black,
+    timeInSecForIosWeb: 1,
+  );
 }

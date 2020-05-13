@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   List<Book> bookDB = List();
   List<Ratings> ratingDB = List();
   Map<String, dynamic> profile;
+  Map<String, dynamic> book;
   var loading = false;
 
   GlobalKey<AutoCompleteTextFieldState<Book>> key = new GlobalKey();
@@ -95,6 +96,14 @@ class _HomePageState extends State<HomePage> {
     print(ratingDB[1].rating);
   }
 
+  _getBookViaCode(code) async {
+    String url = 'http://'+ipAddress+':3000/books/code/'+code;
+    http.Response response = await http.get(url);
+    print(response.body);
+    book = jsonDecode(response.body);
+    print(book['bname']);
+  }
+
   void requestPermission() async {
     PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.microphone);
     if (permission != PermissionStatus.granted) {
@@ -138,8 +147,6 @@ class _HomePageState extends State<HomePage> {
   void onRecognitionResult(String text) {
     setState(() {
       transcription = text;
-      //print("te"+text+" "+transcription);
-      //searchBar.textField.controller.text = transcription;
     });
   }
 
@@ -167,7 +174,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: SideMenu(profile: profile),
+        drawer: SideMenu(profile: profile, bookDB: bookDB, ratingDB: ratingDB),
         appBar: AppBar(
           title: Text(
             'App',
@@ -181,6 +188,17 @@ class _HomePageState extends State<HomePage> {
                 var result = await scan();
                 print(result);
                 setState(() => this.barcodeText = result);
+                if(this.barcodeText != null) {
+                  String returnVal = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return alert(context);
+                    },
+                  );
+                  if(returnVal == 'continue') {
+                    _getBookViaCode(this.barcodeText);
+                  }
+                }
               },
               child: Icon(
                 const IconData(0xe900, fontFamily: 'ic_scanner'),
@@ -212,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                         id = item.id;
                         print(id);
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return Detail('asset/images/books/'+id.toString()+'.jpg', id, ratingDB[id-1].rating);
+                          return Detail(uid, 'asset/images/books/'+id.toString()+'.jpg', id, ratingDB[id-1].rating);
                         }));
                       });
                     },
@@ -261,7 +279,7 @@ class _HomePageState extends State<HomePage> {
                 height: 10.0,
               ),
 
-              loading ? Center (child: CircularProgressIndicator()) : BookList(bookDB, ratingDB),
+              loading ? Center (child: CircularProgressIndicator()) : BookList(uid, bookDB, ratingDB),
             ],
           ),
         )

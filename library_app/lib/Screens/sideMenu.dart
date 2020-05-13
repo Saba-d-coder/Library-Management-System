@@ -5,11 +5,15 @@ import 'package:libraryapp/Services/menuItem.dart';
 import 'package:libraryapp/constants/allConst.dart';
 import 'history.dart';
 import 'wishlist.dart';
+import 'package:libraryapp/Services/Book.dart';
+import 'package:libraryapp/Services/Ratings.dart';
 
 class SideMenu extends StatelessWidget {
   final Map<String, dynamic> profile;
+  List<Book> bookDB = List();
+  List<Ratings> ratingDB = List();
 
-  SideMenu({this.profile});
+  SideMenu({this.profile, this.bookDB, this.ratingDB});
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +40,6 @@ class SideMenu extends StatelessWidget {
             ),
             decoration: new BoxDecoration(color: kThemeColor),
           ),
-//          Container(
-//            height: 150.0,
-//            child: DrawerHeader(
-//              margin: EdgeInsets.only(bottom: 0.0),
-//              padding: EdgeInsets.fromLTRB(15.0, 70.0, 0.0, 0.0),
-//              child: Text(
-//                'Welcome! KSK',
-//                style: TextStyle(color: kThemeText, fontSize: 25),
-//              ),
-//              decoration: BoxDecoration(
-//                color: kThemeColor,
-//              ),
-//            ),
-//          ),
           //TODO 2: Add navigator push for resp screens rn added same screen to all
           MenuItem(
             text: 'Profile',
@@ -63,7 +53,7 @@ class SideMenu extends StatelessWidget {
           MenuItem(
             text: 'Wishlist',
             iconName: Icons.list,
-            screen: Wishlist(),
+            screen: Wishlist(bookDB, profile['uid'], ratingDB),
           ),
           MenuItem(
             text: 'Settings',

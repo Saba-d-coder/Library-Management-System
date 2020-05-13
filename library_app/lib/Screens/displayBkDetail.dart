@@ -8,34 +8,41 @@ import 'package:libraryapp/Services/bookDetails.dart';
 import 'package:libraryapp/Services/Ratings.dart';
 
 class Detail extends StatefulWidget {
+  String uid;
   String img;
   int bid;
   int rating;
-  Detail(img, bid, rating) {
+  Detail(uid, img, bid, rating) {
+    this.uid = uid;
     this.img = img;
     this.bid = bid;
     this.rating = rating;
   }
 
   @override
-  _DetailState createState() => _DetailState(img, bid, rating);
+  _DetailState createState() => _DetailState(uid, img, bid, rating);
 }
 
 class _DetailState extends State<Detail> {
   bool changeColor= false;
   bool descTextShowFlag = false;
 
+  String uid;
   String img;
   int bid;
   int rating;
   bool loading;
   String barcodeText;
   Map<String, dynamic> bookDetails;
+  Map<String, dynamic> book;
   List<Reviews> reviewsDB = List();
   List<Book> recList = List();
   List<Ratings> ratingDB = List();
+  List<int> wishlist = List();
+  Map<String, dynamic> profile;
 
-  _DetailState(img, bid, rating) {
+  _DetailState(uid, img, bid, rating) {
+    this.uid = uid;
     this.img = img;
     this.bid = bid;
     this.rating = rating;
@@ -44,10 +51,11 @@ class _DetailState extends State<Detail> {
   @override
   void initState() {
     super.initState();
-    _DetailState(img, bid, rating);
+    _DetailState(uid, img, bid, rating);
     _getBookDetails();
     _getReviews();
     _getRatings();
+    _getProfile();
     _getRecommendations();
   }
 
@@ -102,6 +110,49 @@ class _DetailState extends State<Detail> {
     print(recList[1].id);
   }
 
+  _getProfile() async {
+    String url = 'http://'+ipAddress+':3000/users/'+uid;
+    http.Response response = await http.get(url);
+    print(response.body);
+    profile = jsonDecode(response.body);
+    print(profile['name']);
+    String list = profile['wishlist'] != null ? profile['wishlist'].trim() : profile['wishlist'];
+
+    if(list == null || list.length == 0) {
+      print('empty');
+    }
+    else if(list.length > 1) {
+      wishlist = list.split(',')
+          .map((data) => int.parse(data))
+          .toList();
+    }
+    else if(list.length == 1){
+      wishlist.add(int.parse(profile['wishlist']));
+    }
+    if(wishlist.contains(bid)) {
+      changeColor = true;
+    }
+  }
+
+  _getBookViaCode(code) async {
+    String url = 'http://'+ipAddress+':3000/books/code/'+code;
+    http.Response response = await http.get(url);
+    print(response.body);
+    book = jsonDecode(response.body);
+    print(book['bname']);
+  }
+
+  _updateWishList() async {
+    print(wishlist.join(','));
+    String list = wishlist.length == 0 ? ' ' : wishlist.join(',');
+    String url = 'http://'+ipAddress+':3000/users/'+uid+'/wishlist/'+list;
+    Map<String, String> headers = {"Content-type": "application/json"};
+    http.Response response = await http.put(url, headers: headers, body: null);
+    if(response.statusCode == 200) {
+      print("success");
+    }
+  }
+
   ListTile myListTile(int i) {
     return ListTile(
       title: Text(
@@ -141,6 +192,17 @@ class _DetailState extends State<Detail> {
               var result = await scan();
               print(result);
               setState(() => this.barcodeText = result);
+              if(this.barcodeText != null) {
+                String returnVal = await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return alert(context);
+                  },
+                );
+                if(returnVal == 'continue') {
+                  _getBookViaCode(this.barcodeText);
+                }
+              }
             },
             child: Icon(
               const IconData(0xe900, fontFamily: 'ic_scanner'),
@@ -183,6 +245,17 @@ class _DetailState extends State<Detail> {
                   onTap: () {
                     setState(() {
                       changeColor = !changeColor;
+                      if(changeColor == true) {
+                        this.wishlist.add(bookDetails['bid']);
+                        _updateWishList();
+                        showToast('Added to your wishlist');
+                      } else { print(this.wishlist.join(','));
+                        if(this.wishlist.contains(bookDetails['bid'])) {
+                          this.wishlist.remove(bookDetails['bid']);
+                          _updateWishList();
+                          showToast('Removed from your wishlist');
+                        }
+                      }
                     });
                   },
                 ),

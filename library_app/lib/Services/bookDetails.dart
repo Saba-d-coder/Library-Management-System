@@ -7,22 +7,23 @@ import 'Book.dart';
 import 'Ratings.dart';
 
 class BookList extends StatefulWidget {
+  String uid;
   List<Book> bookDB;
   List<Ratings> ratingDB;
-  BookList(bookDB, ratingDB) {
+  BookList(uid, bookDB, ratingDB) {
+    this.uid = uid;
     this.bookDB = bookDB;
     this.ratingDB = ratingDB;
   }
   @override
-  _BookListState createState() => _BookListState(bookDB, ratingDB);
+  _BookListState createState() => _BookListState(uid, bookDB, ratingDB);
 }
 
 class _BookListState extends State<BookList> {
-  _BookListState(bookDB, ratingDB) {
-
+  _BookListState(uid, bookDB, ratingDB) {
+    this.uid = uid;
     this.bookDB = bookDB;
     this.ratingDB = ratingDB;
-
   }
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _BookListState extends State<BookList> {
     setState(() {
       loading = true;
     });
-    _BookListState(bookDB, ratingDB);
+    _BookListState(uid, bookDB, ratingDB);
     setState(() {
       loading = false;
     });
@@ -39,6 +40,7 @@ class _BookListState extends State<BookList> {
   List<Book> bookDB = List();
   List<Ratings> ratingDB = List();
   bool loading;
+  String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +55,7 @@ class _BookListState extends State<BookList> {
         physics: ScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return SingleBook(
+              uid: this.uid,
               id: bookDB[index].id,
               bname: bookDB[index].name,
               author: bookDB[index].author,
@@ -64,8 +67,9 @@ class _BookListState extends State<BookList> {
 }
 
 class SingleBook extends StatelessWidget {
-  SingleBook({this.id ,this.bname, this.author, this.pub, this.rating, this.review, this.img});
+  SingleBook({this.uid, this.id ,this.bname, this.author, this.pub, this.rating, this.review, this.img});
 
+  final uid;
   final id;
   final bname;
   final author;
@@ -84,7 +88,7 @@ class SingleBook extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Detail(img, id, rating);
+                return Detail(uid, img, id, rating);
               }));
             },
             child: GridTile(

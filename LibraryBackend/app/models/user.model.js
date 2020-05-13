@@ -8,7 +8,8 @@ const User = function(user) {
     this.emailID = user.emailID,
     this.phoneNo = user.phoneNo,
     this.password = user.password,
-    this.noOfBooks = user.noOfBooks
+    this.noOfBooks = user.noOfBooks,
+    this.wishlist = user.list
 }
 
 //to create a new user
@@ -77,6 +78,23 @@ User.updateNoOfBooks = (uid, noOfBooks, user, result) => {
         }
         console.log("updated noOfBooks taken by user: ",{...user});
         result(null, {...user});
+    });
+};
+
+User.updateWishList = (uid, list, result) => {
+    sql.query(`UPDATE user SET wishlist = '${list}' WHERE uid = '${uid}'`,
+    (err, res) => {
+        if(err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if(res.affectedRows == 0) {
+            result("not found", null);
+            return;
+        }
+        console.log("updated wishlist: ",list);
+        result(null);
     });
 };
 

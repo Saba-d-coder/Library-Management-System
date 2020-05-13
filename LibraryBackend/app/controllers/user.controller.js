@@ -56,3 +56,15 @@ exports.updateNoOfBooks = (req, res) => {
             }
         });
 };
+
+exports.updateWishList = (req, res) => {
+    User.updateWishList(req.params.uid, req.params.list,
+        (err, data) => {
+            if(err) {
+                res.send({msg: err.msg});
+            }
+            else {
+                res.send(data);
+            }
+        });
+};

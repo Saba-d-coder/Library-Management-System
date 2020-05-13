@@ -12,4 +12,7 @@ module.exports = app => {
 
     //to update the no. of books taken by the user
     app.put("/users/:uid/noOfBooks/:noOfBooks", users.updateNoOfBooks);
+
+    //to update user's wishlist
+    app.put("/users/:uid/wishlist/:list", users.updateWishList);
 };
