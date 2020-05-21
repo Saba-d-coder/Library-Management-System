@@ -7,6 +7,8 @@ import 'history.dart';
 import 'wishlist.dart';
 import 'package:libraryapp/Services/Book.dart';
 import 'package:libraryapp/Services/Ratings.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:libraryapp/Screens/loginPage.dart';
 
 class SideMenu extends StatelessWidget {
   final Map<String, dynamic> profile;
@@ -15,11 +17,12 @@ class SideMenu extends StatelessWidget {
 
   SideMenu({this.profile, this.bookDB, this.ratingDB});
 
+  void sendEmail(String email) => launch("mailto:$email?subject=Feedback"); //to open mail app on your phone
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-//        margin: EdgeInsets.only(right: 0.0),
         color: kThemeText,
         child: ListView(padding: EdgeInsets.zero, children: <Widget>[
           UserAccountsDrawerHeader(
@@ -32,43 +35,47 @@ class SideMenu extends StatelessWidget {
               style: TextStyle(color: kThemeText),
             ),
             currentAccountPicture: new CircleAvatar(
-              backgroundColor: Colors.black,
+              backgroundColor: kThemeText,
               child: Icon(
                 Icons.person,
-                color: Colors.white,
+                color: kCircleAvatarIconColor,
               ),
             ),
             decoration: new BoxDecoration(color: kThemeColor),
           ),
-          //TODO 2: Add navigator push for resp screens rn added same screen to all
           MenuItem(
             text: 'Profile',
             iconName: Icons.person_outline,
-            screen: ProfileDetails(profile),
+            screen: ProfileDetails(profile), //to call profile details page
           ),
           MenuItem(
               text: 'History',
               iconName: Icons.history,
-              screen: History()),
+              screen: History(bookDB, profile['uid'], ratingDB) //to display library transaction history of the user
+          ),
           MenuItem(
             text: 'Wishlist',
             iconName: Icons.list,
-            screen: Wishlist(bookDB, profile['uid'], ratingDB),
+            screen: Wishlist(bookDB, profile['uid'], ratingDB), //to display wishlist of the user
           ),
           MenuItem(
             text: 'Settings',
             iconName: Icons.settings,
-            screen: ProfileDetails(profile),
+            screen: ProfileDetails(profile), //opens profile itself(as of now)
           ),
-          MenuItem(
-            text: 'Feedback',
-            iconName: Icons.border_color,
-            screen: ProfileDetails(profile),
+          ListTile(
+            title: Text('Feedback'),
+            leading: Icon(Icons.border_color),
+            onTap: () => {sendEmail("libraryapp.proj@gmail.com")}, //to send a feedback via email
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
-            onTap: () => {Navigator.pop(context)},
+            onTap: () => {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                return LoginPage();
+              }),
+             (Route<dynamic> route) => false) //to logout by popping out every screen and push login screen
+            },
           ),
         ]),
       ),

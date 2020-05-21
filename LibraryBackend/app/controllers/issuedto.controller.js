@@ -8,8 +8,12 @@ exports.issue = (req, res) => {
         bid: req.body.bid,
         issuedDate: req.body.issuedDate,
         dueDate: req.body.dueDate,
+        status: req.body.status,
+        fine: req.body.fine,
         noOfRenews: req.body.noOfRenews,
-        fine: req.body.fine
+        totNoOfTimes: req.body.totNoOfTimes,
+        rating: req.body.rating,
+        reviews: req.body.reviews
     });
 
     IssuedTo.issue(issuedto, (err, data) => {
@@ -23,20 +27,7 @@ exports.issue = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    IssuedTo.update(req.params.uid, req.body.bid, req.body.issuedDate, req.body.dueDate, req.body.noOfRenews,
-        new IssuedTo(req.body),
-        (err, data) => {
-            if(err) {
-                res.send({msg: err.msg});
-            }
-            else {
-                res.send(data);
-            }
-        });
-};
-
-exports.updateFine = (req, res) => {
-    IssuedTo.updateFine(req.params.uid, req.params.bid, req.params.fine,
+    IssuedTo.update(req.params.uid, req.body.bid,
         new IssuedTo(req.body),
         (err, data) => {
             if(err) {
@@ -59,8 +50,8 @@ exports.getAllByUID = (req, res) => {
     });
 };
 
-exports.getCurIssByUID = (req, res) => {
-    IssuedTo.getCurIssByUID(req.params.uid, (err, data) => {
+exports.getIfIssued = (req, res) => {
+    IssuedTo.getIfIssued(req.params.uid, req.params.bid, (err, data) => {
         if(err) {
             res.send({msg: err.msg});
         }
@@ -68,4 +59,39 @@ exports.getCurIssByUID = (req, res) => {
             res.send(data);
         }
     });
+};
+
+exports.getAllByBID = (req, res) => {
+    IssuedTo.getAllByBID(req.params.bid, (err, data) => {
+        if(err) {
+            res.send({msg: err.msg});
+        }
+        else {
+            res.send(data);
+        }
+    });
+};
+
+exports.getRating = (req, res) => {
+    IssuedTo.getRating((err, data) => {
+        if(err) {
+            res.send({msg: err.msg});
+        }
+        else {
+            res.send(data);
+        }
+    });
+};
+
+exports.updateRating = (req, res) => {
+    IssuedTo.updateRating(req.params.uid, req.params.bid,
+        new IssuedTo(req.body),
+        (err, data) => {
+            if(err) {
+                res.send({msg: err.msg});
+            }
+            else {
+                res.send(data);
+            }
+        });
 };

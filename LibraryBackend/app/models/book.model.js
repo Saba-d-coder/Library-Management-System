@@ -9,7 +9,6 @@ const Book = function(book) {
     this.publisher = book.publisher,
     this.code = book.code,
     this.shelfNo = book.shelfNo,
-    this.status = book.status,
     this.noOfBooks = book.noOfBooks,
     this.description = book.description
 };
@@ -46,7 +45,7 @@ Book.findByID = (bid, result) => {
 
 //to retrieve a particular book based on its code
 Book.findByCode = (code, result) => {
-    sql.query(`SELECT * FROM book WHERE code = ${code}`, (err, res) => {
+    sql.query(`SELECT * FROM book WHERE code = '${code}'`, (err, res) => {
         if(err) {
             console.log("error: ", err);
             result(err, null);
@@ -61,9 +60,9 @@ Book.findByCode = (code, result) => {
     });
 };
 
-//to update a book's status- available, issued etc
-Book.updateStatusById = (bid, status, shelfNo, book, result) => {
-    sql.query(`UPDATE book SET status = '${status}', shelfNo='${shelfNo}' WHERE bid = ${bid}`, 
+//to update the no. of books taken by the user
+Book.updateNoOfBooks = (bid, noOfBooks, user, result) => {
+    sql.query(`UPDATE book SET noOfBooks = ${noOfBooks} WHERE bid = ${bid}`,
     (err, res) => {
         if(err) {
             console.log("error: ", err);
@@ -74,8 +73,8 @@ Book.updateStatusById = (bid, status, shelfNo, book, result) => {
             result("not found", null);
             return;
         }
-        console.log("updated book status: ", {...book});
-        result(null, {...book});
+        console.log("updated noOfBooks taken by available: ",{...user});
+        result(null, {...user});
     });
 };
 

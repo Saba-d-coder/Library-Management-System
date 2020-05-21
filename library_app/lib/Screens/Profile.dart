@@ -35,12 +35,14 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     super.initState();
   }
 
-  bool enableEdit = false;
+  bool enableEdit = false; //set to true to enable user to edit profile
   Map<String, dynamic> profile;
+
   _ProfileDetailsState(profile) {
     this.profile = profile;
   }
 
+  //to update the user profile
   _updateProfile(updatedProfile) async {
     String url = 'http://'+ipAddress+':3000/users/'+profile['uid'];
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -59,11 +61,13 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       print("failed");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Profile'),
+        title: Text('Your Profile', style: TextStyle(color: kThemeText),),
+        iconTheme: new IconThemeData(color: kThemeText),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.edit),
@@ -74,7 +78,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             },
           ),
         ],
-        backgroundColor: Colors.black,
+        backgroundColor: kThemeColor,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 50.0),
@@ -125,7 +129,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               TextFormField(
                 controller: _password,
                 enabled: enableEdit,
-                obscureText: enableEdit ? false : true,
+                obscureText: enableEdit ? false : true, //password shown only when profile is editable
                 decoration: kInputDecorProfile('Password'),
                 validator: pwdValidator,
               ),
@@ -137,10 +141,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                 textColor: kThemeText,
                 onPressed: () {
                   String updatedProfile = '{"name":"'+_name.text.toUpperCase()+'","emailID":"'+_emailID.text+'","phoneNo":"'+_phoneNo.text+'","password":"'+_password.text+'"}';
-                  _updateProfile(updatedProfile);
+                  _updateProfile(updatedProfile); //to update profile with validated details
                 },
               ),
-            ],/*Button(texts: "Submit", screen: HomePage(profile['uid']))*/
+            ],
           ),
         ),
       ),

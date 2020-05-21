@@ -42,6 +42,7 @@ class _WishlistState extends State<Wishlist> {
     _getProfile();
   }
 
+  //to get user profile from db and further extract user's wishlist
   _getProfile() async {
     setState(() => this.loading = true);
     String url = 'http://'+ipAddress+':3000/users/'+uid;
@@ -54,7 +55,7 @@ class _WishlistState extends State<Wishlist> {
     if(this.wishlist == null || this.wishlist.length == 0) {
       print('empty');
     }
-    else if(this.wishlist.length > 1) {
+    else if(this.wishlist.length > 1) { //to convert the comma separated string of book id to a list of numbers
       this.wlist.addAll(this.wishlist.split(',')
           .map((data) => int.parse(data))
           .toList());
@@ -65,6 +66,7 @@ class _WishlistState extends State<Wishlist> {
     setState(() => this.loading = false);
   }
 
+  //to update user's wishlist
   _updateWishList() async {
     print('w: '+ wlist.join(','));
     String list = wlist.length == 0 ? ' ' : wlist.join(',');
@@ -76,14 +78,15 @@ class _WishlistState extends State<Wishlist> {
     }
   }
 
+  //to display every book of user's wishlist as list item
   Widget bookCard(BuildContext context, var bk) {
     return Card(
       child: Material(
-        color: Colors.black45,
+        color: kBookCardColor,
         child: InkWell(
           onTap: () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-              return Detail(uid, 'asset/images/books/'+(bk.id).toString()+'.jpg', bk.id, ratingDB[bk.id - 1].rating);
+              return Detail(uid, 'asset/images/books/'+(bk.id).toString()+'.jpg', bk.id, ratingDB[bk.id - 1].rating); //to display book details on tapping a list item
             }));
           },
           child: ListTile(
@@ -109,9 +112,9 @@ class _WishlistState extends State<Wishlist> {
               icon: Icon(Icons.delete),
               onPressed: () {
                 setState(() {
-                  wlist.remove(bk.id);
+                  wlist.remove(bk.id); //to remove the book from wishlist
                   _updateWishList();
-                  showToast('Removed from your wishlist');
+                  showToast('Removed from your wishlist'); //to display toast notification
                 });
               },
             ),
@@ -124,25 +127,29 @@ class _WishlistState extends State<Wishlist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Your Wishlist")),
+        appBar: AppBar(
+          title: Text("Your Wishlist", style: TextStyle(color: kThemeText),),
+          backgroundColor: kThemeColor,
+          iconTheme: new IconThemeData(color: kThemeText),
+        ),
         body: loading ? Center(child: CircularProgressIndicator()) : this.wlist.length == 0 ? Center(
             child: Text(
                 'Nothing to show!',
                 style: TextStyle(
                     fontSize: 17,
-                    color: Colors.white70
+                    color: kdefaultTextColor
                 ))) : ListView.builder(
             itemCount: this.wlist.length,
             itemBuilder: (BuildContext context, int index) {
-              return Dismissible(
+              return Dismissible( //to enable swipping out and deletion of list item dynamically
                 key: Key(bookDB[this.wlist[index]-1].id.toString()),
-                direction: DismissDirection.startToEnd,
+                direction: DismissDirection.startToEnd, //swipe direction
                 child: bookCard(context, bookDB[this.wlist[index]-1]),
                 onDismissed: (direction) {
                   setState(() {
-                    this.wlist.remove(bookDB[this.wlist[index]-1].id);
+                    this.wlist.remove(bookDB[this.wlist[index]-1].id); //to remove boo from wishlist
                     _updateWishList();
-                    showToast('Removed from your wishlist');
+                    showToast('Removed from your wishlist'); //to display toast notification
                   });
                 },
               );

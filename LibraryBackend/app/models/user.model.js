@@ -81,6 +81,7 @@ User.updateNoOfBooks = (uid, noOfBooks, user, result) => {
     });
 };
 
+//to update the wishlist of the user
 User.updateWishList = (uid, list, result) => {
     sql.query(`UPDATE user SET wishlist = '${list}' WHERE uid = '${uid}'`,
     (err, res) => {

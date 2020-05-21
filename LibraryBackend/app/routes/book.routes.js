@@ -9,10 +9,10 @@ module.exports = app => {
 
     //to get a book based on its code
     app.get("/books/code/:code", books.findByCode);
-
-    //to update the status and shelfNo of the book based on its id
-    app.put("/books/:bid/status/:status/shelfNo/:shelfNo", books.updateStatusByID);
     
+    //to update the no. of books taken by the user
+    app.put("/books/:bid/noOfBooks/:noOfBooks", books.updateNoOfBooks);
+
     //to get book recommendation
     app.get("/books/rec/:bid", books.getRec);
 };

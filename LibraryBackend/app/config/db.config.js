@@ -2,6 +2,7 @@
 module.exports = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "abcd", //include the password to connect to your db
-    DB: "librarydb"
+    PASSWORD: "abcd", 
+    DB: "librarydb",
+    TIMEZONE : "+00:00"
 }

@@ -5,14 +5,20 @@ module.exports = app => {
     app.post("/issuedto", issuedto.issue);
     
     //to update the issuance details(when renewed)
-    app.put("/issuedto/:uid", issuedto.update);
-
-    //to update the fine
-    app.put("/issuedto/:uid/bid/:bid/fine/:fine", issuedto.updateFine);
+    app.put("/issuedto/uid/:uid/bid/:bid", issuedto.update);
 
     //to get the history of all the books taken by the user
     app.get("/issuedto/:uid", issuedto.getAllByUID);
 
-    //to get the currently issued books by the user
-    app.get("/issuedto/currently/:uid", issuedto.getCurIssByUID);
+    //to get if the book has been issued
+    app.get("/issuedto/uid/:uid/bid/:bid", issuedto.getIfIssued);
+
+    //to get all the reviews of a particular book
+    app.get("/reviews/:bid", issuedto.getAllByBID);
+
+    //to get book ratings
+    app.get("/ratings", issuedto.getRating);
+
+    //to update rating and reviews
+    app.put("/reviews/uid/:uid/bid/:bid", issuedto.updateRating);
 };

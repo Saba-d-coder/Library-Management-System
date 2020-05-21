@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:libraryapp/Screens/Profile.dart';
-import 'package:libraryapp/Screens/listCard.dart';
-import 'package:libraryapp/Services/inputFields.dart';
 import 'package:libraryapp/Screens/registerPage.dart';
 import 'package:libraryapp/Screens/homePage.dart';
-import 'package:libraryapp/Services/Buttons.dart';
 import 'package:libraryapp/constants/allConst.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,12 +13,14 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   TextEditingController _uid;
   TextEditingController _password;
+  bool visible = false;
   initState() {
     _uid = new TextEditingController();
     _password = new TextEditingController();
     super.initState();
   }
 
+  //check if the user exists and credentials entered are valid
   _checkUser(String uid, String password) async {
     String url = 'http://'+ipAddress+':3000/users/'+uid;
     http.Response response = await http.get(url);
@@ -38,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         _uid.clear();
         _password.clear();
         print('invalid credentials');
+        setState(() => visible = true);
       }
     }
     else {
@@ -49,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-//        child: HomePage(),
         child: SingleChildScrollView(
           child: Form(
             key: _loginFormKey,
@@ -57,7 +55,15 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(height: 45.0),
-                //InputField(placeholder: "UID"),
+                Visibility( // displayed if the user does not enter valid details
+                  child: Text(
+                    'Invalid credentials',
+                    style: TextStyle(fontSize: 12, color: Colors.red),
+                    textAlign: TextAlign.left,
+                  ),
+                  visible: visible,
+                ),
+                SizedBox(height: 7.0),
                 TextFormField(
                   decoration: kInputDecor('UID*',"1MS11AB000"),
                   style: kTextStyle(),
@@ -66,7 +72,6 @@ class _LoginPageState extends State<LoginPage> {
                   validator: uidValidator,
                 ),
                 SizedBox(height: 25.0),
-                //InputField(placeholder: "Password", boolValue: "hide"),
                 TextFormField(
                   decoration: kInputDecor('Password*', "********"),
                   style: kTextStyle(),
@@ -79,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     RaisedButton(
-                        child: Text("Login"),
+                        child: Text("Login"), //to login
                         shape: kShape(),
                         color: kThemeColor,
                         textColor: kThemeText,
@@ -93,10 +98,10 @@ class _LoginPageState extends State<LoginPage> {
                         }
                     ),
                     RaisedButton(
-                        child: Text("Register"),
-                        shape: kShape(),
-                        color: kThemeColor,
-                        textColor: kThemeText,
+                      child: Text("Register"), //to register new user
+                      shape: kShape(),
+                      color: kThemeColor,
+                      textColor: kThemeText,
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return RegisterPage();

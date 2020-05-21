@@ -27,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
   }
 
+  //to register a new user by taking in required details
   _registerUser(String userDetails) async {
     String url = 'http://'+ipAddress+':3000/users';
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -61,17 +62,6 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                /*InputField(fieldName: "name",placeholder: "Name"),
-                SizedBox(height: 15.0),
-                InputField(fieldName: "uid", placeholder: "ID"),
-                SizedBox(height: 15.0),
-                InputField(fieldName: "emailID",placeholder: "Email"),
-                SizedBox(height: 15.0),
-                InputField(fieldName: "phoneNo", placeholder: "Mobile Number"),
-                SizedBox(height: 15.0),
-                InputField(fieldName: "password", placeholder: "New Password", boolValue: "hide"),
-                SizedBox(height: 15.0),
-                InputField(fieldName:"cmpPass", placeholder: "Compare Password", boolValue: "hide"),*/
                 TextFormField(
                   decoration: kInputDecor('UID*', "1MS11AB000"),
                   style: kTextStyle(),

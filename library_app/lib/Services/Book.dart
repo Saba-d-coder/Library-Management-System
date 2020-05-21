@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+//json to list of objects
 List<Book> modelBookFromJson(String str) => List<Book>.from(json.decode(str).map((x) => Book.fromJson(x)));
 
+//list of objects to json
 String modelBookToJson(List<Book> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-
+//to extract book details from book json
 class Book {
   int id, noOfBooks;
   String name, author, publisher, autocompleteTerm, status, description, subject, shelfNo;

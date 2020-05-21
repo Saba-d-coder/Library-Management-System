@@ -11,17 +11,19 @@ class MenuItem extends StatefulWidget {
   _MenuItemState createState() => _MenuItemState();
 }
 
-class _MenuItemState extends State<MenuItem> {
+class _MenuItemState extends State<MenuItem> { //to display list items of side menu
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(widget.iconName),
-      title: Text(widget.text),
-      onTap: () => {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return widget.screen;
-        }))
-      },
+    return InkWell(
+      child: ListTile(
+        leading: Icon(widget.iconName),
+        title: Text(widget.text),
+        onTap: () => {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return widget.screen;
+          }))
+        },
+      ),
     );
   }
 }

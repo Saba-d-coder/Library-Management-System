@@ -7,7 +7,8 @@ const conn = mysql.createConnection({
     host: dbConfig.HOST,
     user: dbConfig.USER,
     password: dbConfig.PASSWORD,
-    database: dbConfig.DB
+    database: dbConfig.DB,
+    timezone : dbConfig.TIMEZONE
 });
 
 //connect to the database

@@ -19,7 +19,6 @@ app.use((req,res,next)=>{
 require("./app/routes/book.routes.js")(app);
 require("./app/routes/user.routes.js")(app);
 require("./app/routes/issuedto.routes.js")(app);
-require("./app/routes/reviews.routes.js")(app);
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

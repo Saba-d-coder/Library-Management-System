@@ -35,9 +35,9 @@ exports.findByCode = (req, res) => {
     })
 };
 
-exports.updateStatusByID = (req, res) => {
-    Book.updateStatusById(req.params.bid, req.params.status, req.params.shelfNo,
-        new Book(req.body), 
+exports.updateNoOfBooks = (req, res) => {
+    Book.updateNoOfBooks(req.params.bid, req.params.noOfBooks,
+        new Book(req.body),
         (err, data) => {
             if(err) {
                 res.send({msg: err.msg});

@@ -43,7 +43,7 @@ class _BookListState extends State<BookList> {
   String uid;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { //to display the books in grid format (2 books/row)
     return loading ? Center (child: CircularProgressIndicator()) : GridView.builder(
         itemCount: bookDB.length,
         scrollDirection: Axis.vertical,
@@ -66,6 +66,7 @@ class _BookListState extends State<BookList> {
   }
 }
 
+//to display details of every book
 class SingleBook extends StatelessWidget {
   SingleBook({this.uid, this.id ,this.bname, this.author, this.pub, this.rating, this.review, this.img});
 
