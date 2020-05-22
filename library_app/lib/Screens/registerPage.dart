@@ -18,6 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _cmpPass;
   @override
   void initState() {
+    getTheme();
     _name = new TextEditingController();
     _uid = new TextEditingController();
     _emailID = new TextEditingController();
@@ -53,8 +54,10 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: kThemeColor,
+        iconTheme: new IconThemeData(color: kThemeText),
       ),
+      backgroundColor: kThemeText,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 50.0),
         child: Form(

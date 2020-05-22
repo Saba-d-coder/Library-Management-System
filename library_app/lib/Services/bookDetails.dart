@@ -27,6 +27,7 @@ class _BookListState extends State<BookList> {
   }
   @override
   void initState() {
+    getTheme();
     super.initState();
     setState(() {
       loading = true;
@@ -85,7 +86,7 @@ class SingleBook extends StatelessWidget {
       child: Hero(
         tag: Text(bname),
         child: Material(
-          color: Colors.black45,
+          color: kBookCardColor,
           child: InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -112,13 +113,13 @@ class SingleBook extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+                          fontWeight: FontWeight.bold, color: kbkDetailsColor),
                     ),
                     Text(
                       author + ", " + pub,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: kbkDetailsColor),
                     ),
                     Expanded(
                       child: Row(

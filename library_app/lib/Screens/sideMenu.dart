@@ -9,13 +9,14 @@ import 'package:libraryapp/Services/Book.dart';
 import 'package:libraryapp/Services/Ratings.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:libraryapp/Screens/loginPage.dart';
+import 'package:libraryapp/Screens/SettingsPage.dart';
 
 class SideMenu extends StatelessWidget {
   final Map<String, dynamic> profile;
   List<Book> bookDB = List();
   List<Ratings> ratingDB = List();
 
-  SideMenu({this.profile, this.bookDB, this.ratingDB});
+  SideMenu({this.profile, this.bookDB, this.ratingDB, getTheme()});
 
   void sendEmail(String email) => launch("mailto:$email?subject=Feedback"); //to open mail app on your phone
 
@@ -61,16 +62,16 @@ class SideMenu extends StatelessWidget {
           MenuItem(
             text: 'Settings',
             iconName: Icons.settings,
-            screen: ProfileDetails(profile), //opens profile itself(as of now)
+            screen: SettingsPage(profile['uid']), //opens profile itself(as of now)
           ),
           ListTile(
-            title: Text('Feedback'),
+            title: Text('Feedback', style: TextStyle(color: kMenuItemTextColor)),
             leading: Icon(Icons.border_color),
             onTap: () => {sendEmail("libraryapp.proj@gmail.com")}, //to send a feedback via email
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
+            title: Text('Logout', style: TextStyle(color: kMenuItemTextColor)),
             onTap: () => {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
                 return LoginPage();
               }),

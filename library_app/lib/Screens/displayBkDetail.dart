@@ -55,6 +55,7 @@ class _DetailState extends State<Detail> {
   @override
   void initState() {
     super.initState();
+    getTheme();
     _DetailState(uid, img, bid, rating);
     _getBookDetails();
     _getReviews();
@@ -299,6 +300,7 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kThemeText,
       appBar: AppBar(
         title: Text(
         'App',
@@ -487,42 +489,46 @@ class _DetailState extends State<Detail> {
               height: 7.0,
             ),
             Card(
-              color: kBookCardColor,
-              child: Text(
-                "Published By: " + bookDetails['publisher'] + "\nSubject: " + bookDetails['subject'] + "\nNo. of books Available: " + bookDetails['noOfBooks'].toString() + "\nShelf No.:" + bookDetails['shelfNo'],
-                style: TextStyle(
-                  fontSize: 17,
-                  color: kbkDetailsColor,
+              child: Material(
+                color: kBookCardColor,
+                child: Text(
+                  "Published By: " + bookDetails['publisher'] + "\nSubject: " + bookDetails['subject'] + "\nNo. of books Available: " + bookDetails['noOfBooks'].toString() + "\nShelf No.:" + bookDetails['shelfNo'],
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: kbkDetailsColor,
+                  ),
                 ),
               )
             ),
             Card(
-                color: kBookCardColor,
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      "Description:\n" + bookDetails['description'],
-                      maxLines: descTextShowFlag ? 50 : 4,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: kbkDetailsColor
+                child: Material(
+                  color: kBookCardColor,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Description:\n" + bookDetails['description'],
+                        maxLines: descTextShowFlag ? 50 : 4,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: kbkDetailsColor
+                        ),
                       ),
-                    ),
-                    InkWell(
-                      onTap: (){ //to show full or minimal description of book
-                        setState(() {
-                          descTextShowFlag = !descTextShowFlag;
-                        });
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          descTextShowFlag ? Text("Show Less",style: TextStyle(color: Colors.blue[200]),) :  Text("Show More",style: TextStyle(color: Colors.blue[200]))
-                        ],
+                      InkWell(
+                        onTap: (){ //to show full or minimal description of book
+                          setState(() {
+                            descTextShowFlag = !descTextShowFlag;
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            descTextShowFlag ? Text("Show Less",style: TextStyle(color: Colors.blue),) :  Text("Show More",style: TextStyle(color: Colors.blue))
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
             ),
             Padding(

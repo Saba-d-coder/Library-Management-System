@@ -33,6 +33,7 @@ class _RatingPageState extends State<RatingPage> {
   @override
   initState() {
     super.initState();
+    getTheme();
     _RatingPageState(uid, img, bid, title, author);
     _review = new TextEditingController();
   }
@@ -63,10 +64,11 @@ class _RatingPageState extends State<RatingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Rate this Book',
-          ),
+          title: Text('Rate this Book', style: TextStyle(color: kThemeText)),
+          backgroundColor: kThemeColor,
+          iconTheme: new IconThemeData(color: kThemeText),
         ),
+        backgroundColor: kThemeText,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

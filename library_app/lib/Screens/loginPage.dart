@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _password;
   bool visible = false;
   initState() {
+    getTheme();
     _uid = new TextEditingController();
     _password = new TextEditingController();
     super.initState();
@@ -47,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kThemeText,
       body: Center(
         child: SingleChildScrollView(
           child: Form(

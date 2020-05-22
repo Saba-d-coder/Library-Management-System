@@ -2,17 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String ipAddress = "192.168.0.105";//add the ip address of your host machine
 
+Color kThemeColor;
+Color kThemeText;
+Color kbkDetailsColor;
+Color kSeparatorColor;
+Color kBookCardColor;
+Color kdefaultTextColor;
+Color kCircleAvatarIconColor;
+Color ktextfieldTextcolor;
+Color kMenuItemTextColor;
 
-Color kThemeColor = Colors.cyanAccent;
-Color kThemeText = Colors.black;
-Color kbkDetailsColor = Colors.grey[50];
-Color kSeparatorColor = Colors.grey;
-Color kBookCardColor = Colors.black45;
-Color kdefaultTextColor = Colors.white70;
-Color kCircleAvatarIconColor = Colors.white;
+darkmode() {
+  kThemeColor = Colors.cyanAccent;
+  kThemeText = Colors.black;
+  kbkDetailsColor = Colors.grey[50];
+  kSeparatorColor = Colors.grey;
+  kBookCardColor = Colors.black45;
+  kdefaultTextColor = Colors.white70;
+  kCircleAvatarIconColor = Colors.white;
+  ktextfieldTextcolor = Colors.cyan;
+  kMenuItemTextColor = Colors.white;
+}
+
+lightmode() {
+  kThemeColor = Colors.blue;
+  kThemeText = Colors.white;
+  kbkDetailsColor = Colors.black;
+  kSeparatorColor = Colors.black45;
+  kBookCardColor = Colors.white70;
+  kdefaultTextColor = Colors.black26;
+  kCircleAvatarIconColor = Colors.blue;
+  ktextfieldTextcolor = Colors.blueAccent;
+  kMenuItemTextColor = Colors.black;
+}
+
+getTheme() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String theme = prefs.getString('themeMode');
+  print(theme);
+  if(theme == 'ThemeMode.dark') {
+    darkmode();
+  }
+  else {
+    lightmode();
+  }
+}
 
 //textformfield styling for login, register and rating page
 InputDecoration kInputDecor(label, hint) {
@@ -20,7 +58,7 @@ InputDecoration kInputDecor(label, hint) {
       labelText: label,
       hintText: hint,
       contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0),)
   );
 }
 
@@ -29,14 +67,14 @@ InputDecoration kInputDecorProfile(label) {
   return InputDecoration(
       contentPadding: EdgeInsets.only(left: 15.0),
       labelText:  label,
-      labelStyle: TextStyle(color: Colors.grey)
+      labelStyle: TextStyle(color: kSeparatorColor)
   );
 }
 
 //text color of textfield text
 TextStyle kTextStyle() {
   return TextStyle(
-      color: Colors.cyan
+      color: ktextfieldTextcolor
   );
 }
 

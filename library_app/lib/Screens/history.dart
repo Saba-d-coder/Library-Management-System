@@ -37,6 +37,7 @@ class _HistoryState extends State<History> {
   @override
   initState() {
     super.initState();
+    getTheme();
     _HistoryState(bookDB, uid, ratingDB);
     _getHistory();
   }
@@ -106,6 +107,7 @@ class _HistoryState extends State<History> {
           backgroundColor: kThemeColor,
           iconTheme: new IconThemeData(color: kThemeText),
         ),
+        backgroundColor: kThemeText,
         body: loading ? Center(child: CircularProgressIndicator()) : this.issuedDB.length == 0 ? Center( //display history as list items
         child: Text(
         'Nothing to show!',

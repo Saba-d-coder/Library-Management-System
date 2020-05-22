@@ -38,6 +38,7 @@ class _WishlistState extends State<Wishlist> {
   @override
   initState() {
     super.initState();
+    getTheme();
     _WishlistState(bookDB, uid, ratingDB);
     _getProfile();
   }
@@ -132,6 +133,7 @@ class _WishlistState extends State<Wishlist> {
           backgroundColor: kThemeColor,
           iconTheme: new IconThemeData(color: kThemeText),
         ),
+        backgroundColor: kThemeText,
         body: loading ? Center(child: CircularProgressIndicator()) : this.wlist.length == 0 ? Center(
             child: Text(
                 'Nothing to show!',

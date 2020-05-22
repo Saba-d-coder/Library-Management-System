@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    getTheme();
     _getProfile();
     _getAllBooks();
     _getRatings();
@@ -302,6 +303,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: SideMenu(profile: profile, bookDB: bookDB, ratingDB: ratingDB),
+        backgroundColor: kThemeText,
         appBar: AppBar(
           title: Text(
             'App',

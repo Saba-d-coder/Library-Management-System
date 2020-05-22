@@ -22,6 +22,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   TextEditingController _password;
   @override
   void initState() {
+    getTheme();
     _uid = new TextEditingController();
     _name = new TextEditingController();
     _emailID = new TextEditingController();
@@ -80,6 +81,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         ],
         backgroundColor: kThemeColor,
       ),
+      backgroundColor: kThemeText,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 50.0),
         child: Form(
