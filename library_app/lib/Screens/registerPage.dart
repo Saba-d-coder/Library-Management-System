@@ -16,6 +16,8 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _phoneNo;
   TextEditingController _password;
   TextEditingController _cmpPass;
+  bool visible = false;
+
   @override
   void initState() {
     getTheme();
@@ -28,16 +30,35 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
   }
 
+  //to check if entered uid already exists
+  Future<bool> _checkIfExists(uid) async {
+    print(uid);
+    String url = 'http://'+ipAddress+':3000/users/'+uid;
+    http.Response response = await http.get(url);
+    if(response.statusCode == 200) {
+      print('res '+response.body);
+      if(response.body.contains(uid)) {
+        print('true');
+        return true;
+      }
+    }
+    return false;
+  }
+
   //to register a new user by taking in required details
   _registerUser(String userDetails) async {
-    String url = 'http://'+ipAddress+':3000/users';
-    Map<String, String> headers = {"Content-type": "application/json"};
-    http.Response response = await http.post(url, headers: headers, body: userDetails);
-    if(response.statusCode == 200) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return LoginPage();
-      }));
-      print("success");
+    bool check = await _checkIfExists(_uid.text.toUpperCase());
+    if(!check) {
+      String url = 'http://' + ipAddress + ':3000/users';
+      Map<String, String> headers = {"Content-type": "application/json"};
+      http.Response response = await http.post(
+          url, headers: headers, body: userDetails);
+      if (response.statusCode == 200) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return LoginPage();
+        }));
+        print("success");
+      }
     }
     else {
       _uid.clear();
@@ -47,6 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _password.clear();
       _cmpPass.clear();
       print("failed");
+      setState(() => visible = true);
     }
   }
 
@@ -65,6 +87,15 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Visibility( // displayed if the user does not enter valid details
+                  child: Text(
+                    'User ID already exists',
+                    style: TextStyle(fontSize: 12, color: Colors.red),
+                    textAlign: TextAlign.left,
+                  ),
+                  visible: visible,
+                ),
+                SizedBox(height: 7.0),
                 TextFormField(
                   decoration: kInputDecor('UID*', "1MS11AB000"),
                   style: kTextStyle(),
