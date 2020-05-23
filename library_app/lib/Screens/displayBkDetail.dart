@@ -260,16 +260,22 @@ class _DetailState extends State<Detail> {
       print("Error");
       msg = 'Oops! An error has occurred';
     }
-    showDialog( //show msg
+    String val = await showDialog( //to show a message alert dialog
       context: context,
       builder: (BuildContext context) {
         return message(context, msg);
       },
     );
-    if(msg.contains('renewed')) { //take book rating and review from user
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return RatingPage(uid, 'asset/images/books/'+bid.toString()+'.jpg', bid, book['bname'], book['author']);
-      }));
+    if(val == 'OK') {
+      if (msg.contains(
+          'renewed')) { //to take the user review and rating of the book if it is being renewed
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) {
+          return RatingPage(
+              uid, 'asset/images/books/' + bid.toString() + '.jpg', bid,
+              book['bname'], book['author']);
+        }));
+      }
     }
   }
 
@@ -384,7 +390,7 @@ class _DetailState extends State<Detail> {
                       }
                     }
                     else {
-                      msg = 'This book is unavailable';
+                      msg = 'Max no. of renewals for this book ha reached, please retuen the book';
                     }
                   }
                   else {
@@ -406,6 +412,9 @@ class _DetailState extends State<Detail> {
                           book['bid'].toString() + ',"issuedDate":"' + issuedDate +
                           '","dueDate":"' + dueDate + '","status":"renewed","fine":'+fine.toString()+',"noOfRenews":'+(issuedbk['noOfRenews']+1).toString()+',"totNoOfTimes":'+(issuedbk['totNoOfTimes']+1).toString()+'}';
                       _updateIssuance(context, issuance, book['bid']);
+                    }
+                    else if(issuedbk.isNotEmpty && (issuedbk['status'] != 'returned' && issuedbk['noOfRenews'] == 2)) {
+                      msg = 'Max no. of renewals for this book ha reached, please retuen the book';
                     }
                     else {
                       msg = 'This book is unavailable';

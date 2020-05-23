@@ -206,16 +206,22 @@ class _HomePageState extends State<HomePage> {
       print("Error");
       msg = 'Oops! An error has occurred';
     }
-    showDialog( //to show a message alert dialog
+    String val = await showDialog( //to show a message alert dialog
       context: context,
       builder: (BuildContext context) {
         return message(context, msg);
       },
     );
-    if(msg.contains('renewed')) { //to take the user review and rating of the book if it is being renewed
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return RatingPage(uid, 'asset/images/books/'+bid.toString()+'.jpg', bid, book['bname'], book['author']);
-      }));
+    if(val == 'OK') {
+      if (msg.contains(
+          'renewed')) { //to take the user review and rating of the book if it is being renewed
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) {
+          return RatingPage(
+              uid, 'asset/images/books/' + bid.toString() + '.jpg', bid,
+              book['bname'], book['author']);
+        }));
+      }
     }
   }
 
@@ -384,8 +390,8 @@ class _HomePageState extends State<HomePage> {
                           msg = 'Max limit of books that can be taken has reached';
                         }
                       }
-                      else { //if there are no copies of this book is available
-                        msg = 'This book is unavailable';
+                      else { //if the max no. of renewals has reached
+                        msg = 'Max no. of renewals for this book ha reached, please retuen the book';
                       }
                     }
                     else { //if there are no copies of this book available but the user has already taken a copy of tis book
@@ -407,6 +413,9 @@ class _HomePageState extends State<HomePage> {
                             book['bid'].toString() + ',"issuedDate":"' + issuedDate +
                             '","dueDate":"' + dueDate + '","status":"renewed","fine":'+fine.toString()+',"noOfRenews":'+(issuedbk['noOfRenews']+1).toString()+',"totNoOfTimes":'+(issuedbk['totNoOfTimes']+1).toString()+'}';
                         _updateIssuance(context, issuance, book['bid']);
+                      }
+                      else if(issuedbk.isNotEmpty && (issuedbk['status'] != 'returned' && issuedbk['noOfRenews'] == 2)) { //if the max no. of renewals has reached
+                        msg = 'Max no. of renewals for this book ha reached, please retuen the book';
                       }
                       else { //if max no. of renews has reached
                         msg = 'This book is unavailable';
