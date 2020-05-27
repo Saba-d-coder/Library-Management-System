@@ -27,6 +27,7 @@ class _HistoryState extends State<History> {
   List<Issued> issuedDB = List();
   String uid;
   bool loading;
+  bool flag;
 
   _HistoryState(bookDB, uid, ratingDB) {
     this.bookDB = bookDB;
@@ -46,18 +47,28 @@ class _HistoryState extends State<History> {
   _getHistory() async {
     setState(() {
       loading = true;
+      flag = false;
     });
     String url = 'http://'+ipAddress+':3000/issuedto/'+uid;
     http.Response response = await http.get(url);
     print(response.body);
-    final data = jsonDecode(response.body);
-    setState(() {
-      for (Map i in data) {
-        issuedDB.add(Issued.fromJson(i));
-      }
-      loading = false;
-    });
-    print(issuedDB[1].id);
+    if(response.body == '{}') {
+      print('empty');
+      setState(() {
+        loading = false;
+        flag = true;
+      });
+    }
+    else {
+      final data = jsonDecode(response.body);
+      setState(() {
+        for (Map i in data) {
+          issuedDB.add(Issued.fromJson(i));
+        }
+        loading = false;
+      });
+      print(issuedDB[0].id);
+    }
   }
 
   Widget bookCard(BuildContext context, var bk) {
@@ -108,7 +119,7 @@ class _HistoryState extends State<History> {
           iconTheme: new IconThemeData(color: kThemeText),
         ),
         backgroundColor: kThemeText,
-        body: loading ? Center(child: CircularProgressIndicator()) : this.issuedDB.length == 0 ? Center( //display history as list items
+        body: loading ? Center(child: CircularProgressIndicator()) : flag ? Center( //display history as list items
         child: Text(
         'Nothing to show!',
         style: TextStyle(

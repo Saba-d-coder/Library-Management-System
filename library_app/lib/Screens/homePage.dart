@@ -64,6 +64,9 @@ class _HomePageState extends State<HomePage> {
 
   //to get user profile
   Future _getProfile() async {
+    setState(() {
+      loading = true;
+    });
     String url = 'http://'+ipAddress+':3000/users/'+uid;
     http.Response response = await http.get(url);
     print(response.body);
@@ -74,9 +77,6 @@ class _HomePageState extends State<HomePage> {
 
   //to get all the books present in the db
   _getAllBooks() async {
-    setState(() {
-      loading = true;
-    });
     String url = 'http://'+ipAddress+':3000/books';
     http.Response response = await http.get(url);
     print(response.body);
@@ -85,7 +85,6 @@ class _HomePageState extends State<HomePage> {
       for (Map i in data) {
         bookDB.add(Book.fromJson(i));
       }
-      loading = false;
     });
     print(bookDB[1].publisher);
   }
@@ -99,6 +98,7 @@ class _HomePageState extends State<HomePage> {
       for (Map i in data) {
         ratingDB.add(Ratings.fromJson(i));
       }
+      loading = false;
     });
     print(ratingDB[1].rating);
   }

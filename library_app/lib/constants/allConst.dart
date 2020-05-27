@@ -4,7 +4,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String ipAddress = "104.197.208.84 ";//add the ip address of your host machine
+String ipAddress = "192.168.0.105";//add the ip address of your host machine
 
 Color kThemeColor;
 Color kThemeText;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:libraryapp/constants/allConst.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:http/http.dart' as http;
+import 'package:libraryapp/Screens/homePage.dart';
 
 class RatingPage extends StatefulWidget {
   String uid;
@@ -107,6 +108,7 @@ class _RatingPageState extends State<RatingPage> {
                     allowHalfRating: false,
                     spacing: 1.0,
                     onRated: (value) {
+                      rating = value;
                       print("rating value: "+value.round().toString());
                     },
                   )
@@ -140,7 +142,9 @@ class _RatingPageState extends State<RatingPage> {
                   String review = _review.text;
                   String bkreview = '{"rating":'+rating.round().toString()+',"reviews":"'+review+'"}';
                   _updateReviews(bkreview);
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                    return HomePage(uid);
+                  }));
                 },
               ),
             ],

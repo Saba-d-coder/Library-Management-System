@@ -17,6 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _password;
   TextEditingController _cmpPass;
   bool visible = false;
+  String text = '';
 
   @override
   void initState() {
@@ -68,7 +69,10 @@ class _RegisterPageState extends State<RegisterPage> {
       _password.clear();
       _cmpPass.clear();
       print("failed");
-      setState(() => visible = true);
+      setState(() {
+        visible = true;
+        text = 'User ID already exists';
+      });
     }
   }
 
@@ -89,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: <Widget>[
                 Visibility( // displayed if the user does not enter valid details
                   child: Text(
-                    'User ID already exists',
+                    text,
                     style: TextStyle(fontSize: 12, color: Colors.red),
                     textAlign: TextAlign.left,
                   ),
@@ -163,6 +167,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       if (_password.text == _cmpPass.text) {
                         String userDetails = '{"uid":"'+_uid.text.toUpperCase()+'","name":"'+_name.text.toUpperCase()+'","emailID":"'+_emailID.text+'","phoneNo":"'+_phoneNo.text+'","password":"'+_password.text+'","noOfBooks":0}';
                         _registerUser(userDetails);
+                      } else {
+                        _password.clear();
+                        _cmpPass.clear();
+                        print("failed");
+                        setState(() {
+                          visible = true;
+                          text = 'Passwords do not match';
+                        });
                       }
                     }
                   }

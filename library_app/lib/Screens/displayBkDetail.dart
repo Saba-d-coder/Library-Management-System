@@ -121,6 +121,7 @@ class _DetailState extends State<Detail> {
 
   //get user profile
   Future _getProfile() async {
+    print(uid);
     String url = 'http://'+ipAddress+':3000/users/'+uid;
     http.Response response = await http.get(url);
     print(response.body);
@@ -289,7 +290,7 @@ class _DetailState extends State<Detail> {
         ),
       ),
       subtitle: Text(
-        reviewsDB[i].review,
+        (reviewsDB[i].review == null) ? '-' : reviewsDB[i].review,
         style: TextStyle(
           fontSize: 15,
         ),
