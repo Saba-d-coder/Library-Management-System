@@ -1,2 +1,2 @@
 # Mini-Project
-Library management System
+Library Management System
